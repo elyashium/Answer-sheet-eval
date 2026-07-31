@@ -52,7 +52,7 @@ To make this system robust, scalable, and highly available for millions of concu
 3. **In-House VLM Hosting (Cost & Privacy)**
    - Instead of racking up API costs, move extraction in-house. Fine-tune a 7B model (like Qwen2-VL-7B) on Indian student handwriting via LoRA, and host it on bare-metal GPU clusters (RunPod/AWS Inferentia) with vLLM.
 
-## 🚀 Running the Current Pipeline
+##  Running the Current Pipeline
 
 ```bash
 # 1. Install dependencies
