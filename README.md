@@ -38,7 +38,8 @@ Upload your final evaluation screenshot here to demonstrate the working UI and C
 
 <img width="1442" height="920" alt="image" src="https://github.com/user-attachments/assets/a5b39656-945c-4c7f-b113-990cd50f2829" />
 
-<img width="1442" height="920" alt="image" src="https://github.com/user-attachments/assets/afce925b-0e1c-4148-a0ec-cdb8d8f6ace9" />
+<img width="1196" height="729" alt="image" src="https://github.com/user-attachments/assets/64d7d524-26da-4866-b00a-806d4c785c14" />
+
 
 
 
