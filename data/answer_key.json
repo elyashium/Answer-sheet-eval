@@ -1,6 +1,6 @@
 {
   "subject": "Biology",
-  "total_marks": 7,
+  "total_marks": 9,
   "questions": [
     {
       "id": "Q1",
@@ -11,11 +11,10 @@
         "light energy conversion to chemical energy",
         "occurs in chloroplasts",
         "light-dependent reactions",
-        "Calvin cycle or light-independent reactions",
-        "water splitting produces oxygen",
-        "ATP and NADPH production",
-        "carbon dioxide fixation into glucose",
-        "overall equation"
+        "Calvin cycle",
+        "ATP and NADPH",
+        "glucose",
+        "oxygen"
       ]
     },
     {
@@ -26,8 +25,18 @@
       "key_concepts": [
         "powerhouse of the cell",
         "cellular respiration",
-        "ATP production",
-        "energy currency"
+        "ATP production"
+      ]
+    },
+    {
+      "id": "Q3",
+      "question": "Describe the process of osmosis.",
+      "max_marks": 2,
+      "ideal_answer": "Osmosis is the net movement of water molecules from a region of higher water potential (lower solute concentration) to a region of lower water potential (higher solute concentration) across a selectively permeable membrane.",
+      "key_concepts": [
+        "movement of water",
+        "higher water potential to lower",
+        "selectively permeable membrane"
       ]
     }
   ]

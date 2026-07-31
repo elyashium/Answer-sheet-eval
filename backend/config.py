@@ -5,7 +5,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     GROQ_API_KEY: str = Field(..., description="Groq API key for vision and LLM inference")
-    VISION_MODEL: str = Field(default="qwen/qwen2.5-vl-72b-instruct")
+    VISION_MODEL: str = Field(default="qwen/qwen3.6-27b")
     LLM_MODEL: str = Field(default="llama-3.1-70b-versatile")
     EMBEDDING_MODEL: str = Field(default="all-MiniLM-L6-v2")
     WEIGHT_SEMANTIC: float = Field(default=0.4)
