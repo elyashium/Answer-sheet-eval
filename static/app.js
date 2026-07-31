@@ -9,7 +9,7 @@
     // ─── API Base URL for Vercel Deployment ───────────────────────────
     // Change this to your Render URL before deploying to Vercel
     // Example: const API_BASE_URL = "https://evaluator-api-xyz.onrender.com";
-    const API_BASE_URL = "";
+    const API_BASE_URL = "https://evaluator-ai-ydle.onrender.com";
 
     const loadingState = document.getElementById("loadingState");
     const loadingStatus = document.getElementById("loadingStatus");
