@@ -8,6 +8,7 @@ from typing import List
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from backend.config import get_settings
@@ -20,6 +21,15 @@ app = FastAPI(
     title="Evaluator.ai",
     description="Handwritten Answer Sheet Evaluator powered by AI",
     version="1.0.0",
+)
+
+# Allow CORS for Vercel deployment
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins (update to Vercel URL in production)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
 )
 
 # Load settings

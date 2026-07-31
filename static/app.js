@@ -6,6 +6,11 @@
     const uploadZone = document.getElementById("uploadZone");
     const fileInput = document.getElementById("fileInput");
     const uploadContent = document.getElementById("uploadContent");
+    // ─── API Base URL for Vercel Deployment ───────────────────────────
+    // Change this to your Render URL before deploying to Vercel
+    // Example: const API_BASE_URL = "https://evaluator-api-xyz.onrender.com";
+    const API_BASE_URL = "";
+
     const loadingState = document.getElementById("loadingState");
     const loadingStatus = document.getElementById("loadingStatus");
     const fileList = document.getElementById("fileList");
@@ -123,7 +128,7 @@
             const formData = new FormData();
             selectedFiles.forEach((file) => formData.append("files", file));
 
-            const response = await fetch("/api/evaluate", {
+            const response = await fetch(`${API_BASE_URL}/api/evaluate`, {
                 method: "POST",
                 body: formData,
             });
@@ -259,7 +264,7 @@
         if (!lastResults || lastResults.length === 0) return;
         
         try {
-            const response = await fetch("/api/export/csv", {
+            const response = await fetch(`${API_BASE_URL}/api/export/csv`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ results: lastResults })
