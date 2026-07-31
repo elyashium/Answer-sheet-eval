@@ -16,6 +16,7 @@
     const overallScore = document.getElementById("overallScore");
 
     let selectedFiles = [];
+    let lastResults = [];
 
     // ─── Upload Zone Events ───────────────────────────────────────────
 
@@ -133,6 +134,7 @@
             }
 
             const data = await response.json();
+            lastResults = data.results;
             renderResults(data.results);
         } catch (error) {
             showError(error.message);
@@ -246,8 +248,39 @@
         // Scroll to results
         setTimeout(() => {
             resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            const exportAction = document.getElementById("exportAction");
+            if (exportAction) exportAction.classList.remove("hidden");
         }, 200);
     }
+    
+    // ─── Export CSV ───────────────────────────────────────────────────
+
+    window.downloadCSV = async function () {
+        if (!lastResults || lastResults.length === 0) return;
+        
+        try {
+            const response = await fetch("/api/export/csv", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ results: lastResults })
+            });
+            
+            if (!response.ok) throw new Error("Failed to generate CSV");
+            
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "evaluation_results.csv";
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+        } catch (error) {
+            console.error("CSV Export failed:", error);
+            alert("Failed to export CSV. Please check the console.");
+        }
+    };
 
     // ─── Error Display ────────────────────────────────────────────────
 

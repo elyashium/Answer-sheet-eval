@@ -52,6 +52,16 @@ To make this system robust, scalable, and highly available for millions of concu
 3. **In-House VLM Hosting (Cost & Privacy)**
    - Instead of racking up API costs, move extraction in-house. Fine-tune a 7B model (like Qwen2-VL-7B) on Indian student handwriting via LoRA, and host it on bare-metal GPU clusters (RunPod/AWS Inferentia) with vLLM.
 
+4. **Bulk Uploads & Batch Processing (The 40MB Scenario)**
+   - When a user uploads a massive 40MB ZIP file containing hundreds of answer sheets, the gateway uploads the raw payload directly to S3.
+   - S3 triggers a Celery worker to decompress and process the images concurrently from the queue.
+   - To optimize LLM API costs and latency, the worker batches the extracted text from multiple images (e.g., 20 at a time) and sends them to the Semantic Scorer in a single prompt payload.
+
+5. **Dynamic Category Routing**
+   - In a mixed-category dataset (e.g., Biology and Computer Science sheets mixed together), the system cannot hardcode a single `answer_key.json`.
+   - A **Router Step** is introduced before evaluation: a lightweight zero-shot classification model intercepts the extracted text to identify the subject (e.g., "Is this Biology or CS?").
+   - The worker dynamically fetches the correct rubric from the Vector DB for that specific image before passing it to the evaluation pipeline.
+
 ##  Running the Current Pipeline
 
 ```bash

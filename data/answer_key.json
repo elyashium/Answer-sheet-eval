@@ -1,42 +1,19 @@
 {
-  "subject": "Biology",
-  "total_marks": 9,
+  "subject": "Computer Science",
+  "total_marks": 10,
   "questions": [
     {
       "id": "Q1",
-      "question": "Explain the process of photosynthesis in plants.",
-      "max_marks": 5,
-      "ideal_answer": "Photosynthesis is the process by which green plants convert light energy into chemical energy. It occurs in the chloroplasts, primarily in the leaves. The process involves two stages: the light-dependent reactions and the Calvin cycle (light-independent reactions). In the light-dependent reactions, water molecules are split using sunlight, producing oxygen, ATP, and NADPH. In the Calvin cycle, carbon dioxide is fixed into glucose using the ATP and NADPH generated. The overall equation is 6CO2 + 6H2O + light energy → C6H12O6 + 6O2.",
+      "question": "Write a pseudocode function to find the closest value to a target in an array.",
+      "max_marks": 10,
+      "ideal_answer": "The function should take an array and a target value as input. It initializes the minimum difference and the closest value. It then iterates through each element in the array, calculating the absolute difference between the current element and the target. If this difference is smaller than the minimum difference found so far, it updates the minimum difference and the closest value. Finally, it returns or prints the closest value found.",
       "key_concepts": [
-        "light energy conversion to chemical energy",
-        "occurs in chloroplasts",
-        "light-dependent reactions",
-        "Calvin cycle",
-        "ATP and NADPH",
-        "glucose",
-        "oxygen"
-      ]
-    },
-    {
-      "id": "Q2",
-      "question": "What is the function of mitochondria?",
-      "max_marks": 2,
-      "ideal_answer": "Mitochondria are the powerhouses of the cell. Their primary function is cellular respiration, where they convert glucose and oxygen into ATP (adenosine triphosphate), which is the main energy currency of the cell. They also play roles in calcium signaling and apoptosis.",
-      "key_concepts": [
-        "powerhouse of the cell",
-        "cellular respiration",
-        "ATP production"
-      ]
-    },
-    {
-      "id": "Q3",
-      "question": "Describe the process of osmosis.",
-      "max_marks": 2,
-      "ideal_answer": "Osmosis is the net movement of water molecules from a region of higher water potential (lower solute concentration) to a region of lower water potential (higher solute concentration) across a selectively permeable membrane.",
-      "key_concepts": [
-        "movement of water",
-        "higher water potential to lower",
-        "selectively permeable membrane"
+        "function parameters",
+        "initialize difference",
+        "loop through array",
+        "absolute difference",
+        "compare differences",
+        "update closest value"
       ]
     }
   ]
