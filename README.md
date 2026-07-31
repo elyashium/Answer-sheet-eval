@@ -36,7 +36,12 @@ The pipeline was tested against the publicly available **`gopika13/answer_script
 ## Results
 Upload your final evaluation screenshot here to demonstrate the working UI and CSV export:
 
-![Results Screenshot](./path/to/your-results-screenshot.png)
+<img width="1442" height="920" alt="image" src="https://github.com/user-attachments/assets/a5b39656-945c-4c7f-b113-990cd50f2829" />
+
+<img width="1196" height="729" alt="image" src="https://github.com/user-attachments/assets/64d7d524-26da-4866-b00a-806d4c785c14" />
+
+
+
 
 ---
 
