@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 import functools
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 from sklearn.metrics.pairwise import cosine_similarity
 from groq import AsyncGroq
 import instructor
@@ -18,12 +18,13 @@ class SemanticScorer:
         self.settings = get_settings()
         # Wrap AsyncGroq with instructor for guaranteed schema output
         self.client = instructor.from_groq(AsyncGroq(api_key=self.settings.GROQ_API_KEY), mode=instructor.Mode.JSON)
-        self.embedding_model = SentenceTransformer(self.settings.EMBEDDING_MODEL)
+        # Use fastembed for lightweight embeddings (no PyTorch dependency)
+        self.embedding_model = TextEmbedding("BAAI/bge-small-en-v1.5")
 
     @functools.lru_cache(maxsize=1000)
     def _get_embedding(self, text: str):
         """Cache embeddings to save compute on identical strings."""
-        return self.embedding_model.encode([text])[0]
+        return list(self.embedding_model.embed([text]))[0]
 
     def _compute_cosine_similarity(self, text_a: str, text_b: str) -> float:
         """Compute cosine similarity between two texts using sentence embeddings."""
