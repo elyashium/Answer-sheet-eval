@@ -45,7 +45,7 @@ Upload your final evaluation screenshot here to demonstrate the working UI and C
 
 ---
 
-## Day 1 Production Architecture (Tier 2 Plan)
+## Scaling the Architecture
 
 To make this system robust, scalable, and highly available for millions of concurrent users during exam season, the architecture must transition from synchronous API processing to a fully decoupled Event-Driven system:
 
