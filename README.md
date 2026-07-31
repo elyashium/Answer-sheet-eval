@@ -7,15 +7,15 @@ The pipeline is fully operational and implements a highly optimized, dual-layer 
 ## Architecture & Changes Implemented (Tier 1 Optimizations)
 
 ### 1. Vision & Segmentation (vision_extractor.py)
-- **Zero-Shot Multimodal Extraction:** Replaced traditional brittle OCR pipelines with a Vision Language Model (`llama-3.2-90b-vision-preview`).
+- **Zero-Shot Multimodal Extraction:** Replaced traditional brittle OCR pipelines with a inclusive Vision Language Model (`llama-3.2-90b-vision-preview`) the system can switch or do simulatneous checks.
 - **Image Preprocessing (Safety Guardrails):** Prevents token/RAM explosions by automatically stripping alpha channels, capping resolution to 1024x1024 (via `Pillow` thumbnail scaling), and converting payloads to highly compressed Base64 JPEGs before reaching the VLM.
-- **Robust JSON Output:** Uses a 4-layer fallback parsing mechanism to guarantee structured extraction of question IDs and answers without relying on brittle regex.
+- **Robust JSON Output:** Uses a 4-layer fallback parsing mechanism to guarantee structured extraction of question IDs and answers without relying on brittle regex
 
 ### 2. Semantic Scoring (scorer.py)
 Strict adherence to semantic meaning over keyword matching.
 - **Layer 1 (Edge Latency with LRU Caching):** Utilizes `sentence-transformers` locally. By wrapping embeddings in an `@functools.lru_cache`, the system memorizes vectors for `expected_answer` and `key_concepts`. If 100,000 students take the same exam, we bypass 100,000 redundant embedding computations, saving >60% CPU cycles.
-- **Layer 2 (LLM Judge):** For answers falling in the ambiguous range (0.3-0.85 cosine similarity), the system dynamically routes the text to Groq's `llama-3.3-70b-versatile` for nuanced evaluation.
-- **API Resilience (Tenacity):** All Groq calls are wrapped in an Exponential Backoff Retry mechanism (`@retry`). If Groq throws a rate-limit error, the system automatically waits and retries.
+- **Layer 2 (LLM Judge):** For answers falling in the ambiguous range (0.3-0.85 cosine similarity), the system dynamically routes the text to `llama-3.3-70b-versatile` for nuanced evaluation, this open source model can be fine tuned to perform better evaluation.
+- **API Resilience (Tenacity):** All API calls are wrapped in an Exponential Backoff Retry mechanism (`@retry`)
 - **Concurrency:** Uses `asyncio.gather` to process multiple images in parallel rather than sequentially, reducing a 5-image batch evaluation time by 80%.
 
 ### 3. Confidence Calibration (confidence.py)
@@ -24,7 +24,7 @@ Calculates a composite confidence score (0.0 - 1.0) based on four weighted vecto
 - Semantic cosine similarity distance.
 - Concept coverage ratio.
 - Answer length ratio.
-Dynamically flags low-confidence answers (<= 0.6) for human-in-the-loop review.
+Dynamically flags low-confidence answers (<= 0.6) for human-in-the-loop review, that can be futher given into a flywheel mechanism to queue a model finetuning pipeline
 
 ---
 
@@ -61,9 +61,9 @@ To make this system robust, scalable, and highly available for millions of concu
    - **`student_scores` table:** Stores extracted text, final scores, and human-review flags.
 
 3. **In-House VLM Hosting (Cost & Privacy)**
-   - Instead of racking up API costs, move extraction in-house. Fine-tune a 7B model (like Qwen2-VL-7B) on Indian student handwriting via LoRA, and host it on bare-metal GPU clusters (RunPod/AWS Inferentia) with vLLM.
+   - Instead of racking up API costs, move extraction in-house. Fine-tune a 7B model (like Qwen2-VL-7B) on Indian student handwriting via LoRA, and host it on bare-metal GPU clusters (RunPod/AWS Inferentia) with vLLM
 
-4. **Bulk Uploads & Batch Processing (The 40MB Scenario)**
+4. **Bulk Uploads & Batch Processing**
    - When a user uploads a massive 40MB ZIP file containing hundreds of answer sheets, the gateway uploads the raw payload directly to S3.
    - S3 triggers a Celery worker to decompress and process the images concurrently from the queue.
    - To optimize LLM API costs and latency, the worker batches the extracted text from multiple images (e.g., 20 at a time) and sends them to the Semantic Scorer in a single prompt payload.
