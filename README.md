@@ -4,7 +4,7 @@ The pipeline is fully operational and implements a highly optimized, dual-layer 
 
 <img width="862" height="538" alt="image" src="https://github.com/user-attachments/assets/b8b7bb2b-251e-48a0-91b0-0f9e9614104c" />
 
-## Architecture & Changes Implemented (Tier 1 Optimizations)
+## Implementation
 
 ### 1. Vision & Segmentation (vision_extractor.py)
 - **Zero-Shot Multimodal Extraction:** Replaced traditional brittle OCR pipelines with a inclusive Vision Language Model (`llama-3.2-90b-vision-preview`) the system can switch or do simulatneous checks.
