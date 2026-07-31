@@ -1,19 +1,45 @@
 {
-  "subject": "Computer Science",
-  "total_marks": 10,
+  "subject": "Computer Science (Programming & Algorithms)",
+  "total_marks": 30,
   "questions": [
     {
       "id": "Q1",
-      "question": "Write a pseudocode function to find the closest value to a target in an array.",
+      "question": "Write a pseudocode or Python script to find the closest value to a target in an array or list.",
       "max_marks": 10,
-      "ideal_answer": "The function should take an array and a target value as input. It initializes the minimum difference and the closest value. It then iterates through each element in the array, calculating the absolute difference between the current element and the target. If this difference is smaller than the minimum difference found so far, it updates the minimum difference and the closest value. Finally, it returns or prints the closest value found.",
+      "ideal_answer": "The program should accept a list of numbers and a target value. It iterates through the elements, calculating the absolute difference between each element and the target. It tracks the minimum difference found and updates the closest value accordingly. Finally, it outputs the closest value.",
       "key_concepts": [
-        "function parameters",
-        "initialize difference",
-        "loop through array",
+        "input array and target",
+        "loop through elements",
         "absolute difference",
-        "compare differences",
-        "update closest value"
+        "track minimum difference",
+        "print or return closest value"
+      ]
+    },
+    {
+      "id": "Q2",
+      "question": "Write a pseudocode or script to manipulate or shift characters in a string (e.g., string traversal or Caesar cipher).",
+      "max_marks": 10,
+      "ideal_answer": "The program prompts the user for text input. It then iterates over each character in the string using a loop. During each iteration, it performs a character manipulation (such as adding an offset to the ASCII value) and prints or concatenates the resulting shifted character.",
+      "key_concepts": [
+        "string input",
+        "loop through characters",
+        "character manipulation",
+        "ascii shift or offset",
+        "print resulting string"
+      ]
+    },
+    {
+      "id": "Q3",
+      "question": "Write a C program to count the number of consecutive 1s in a binary array.",
+      "max_marks": 10,
+      "ideal_answer": "The C program includes standard I/O headers. In the main function, it declares an array and variables for tracking counts. It prompts the user for array size and elements. It then loops through the array: if the current element is 1, it increments a counter variable (e.g., j); if it is not 1, it resets the counter. The program prints the number of consecutive 1s.",
+      "key_concepts": [
+        "#include <stdio.h>",
+        "array initialization",
+        "for loop array traversal",
+        "if element is 1 increment count",
+        "reset count on 0",
+        "printf result"
       ]
     }
   ]
