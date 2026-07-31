@@ -1,4 +1,6 @@
-# AI Evaluator — System Architecture & Implementation
+# Eval.ai — System Architecture & Implementation
+<img width="202" height="61" alt="image" src="https://github.com/user-attachments/assets/4fbd7b89-c4d7-4f15-8d8a-575471cc3d49" />
+
 
 
 
