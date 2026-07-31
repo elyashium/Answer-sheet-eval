@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluator.ai — Handwritten Answer Sheet Evaluator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FCFCFC;
+            --text-primary: #111111;
+            --accent: #111111;
+            --border: #E5E5E5;
+            --card-bg: #FFFFFF;
+            --success: #16A34A;
+            --warning: #CA8A04;
+            --danger: #DC2626;
+            --muted: #6B7280;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.drag-over {
+            border-color: var(--accent);
+            background-color: #F9F9F9;
+        }
+
+        .upload-zone.drag-over {
+            transform: scale(1.01);
+        }
+
+        .pill-button {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 100px;
+            padding: 10px 24px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .pill-button:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.2s ease;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        .confidence-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .confidence-green {
+            background: #DCFCE7;
+            color: #166534;
+        }
+
+        .confidence-yellow {
+            background: #FEF9C3;
+            color: #854D0E;
+        }
+
+        .confidence-red {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .score-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            border: 3px solid var(--border);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.6s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 4L8 2L14 4L8 6L2 4Z" fill="white"/>
+                        <path d="M2 4V10L8 12V6L2 4Z" fill="white" opacity="0.7"/>
+                        <path d="M14 4V10L8 12V6L14 4Z" fill="white" opacity="0.5"/>
+                    </svg>
+                </div>
+                <span class="font-display text-lg font-semibold tracking-tight">Evaluator.ai</span>
+            </div>
+            <button class="pill-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                Deploy
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-display font-semibold tracking-tight leading-tight mb-6">
+                Grade handwritten sheets<br>
+                <span class="text-gray-400">with precision AI.</span>
+            </h1>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed">
+                Upload answer sheets and receive instant AI-powered evaluation with semantic scoring, 
+                LLM reasoning, and calibrated confidence levels.
+            </p>
+
+            <!-- Upload Zone -->
+            <div id="uploadZone" class="upload-zone max-w-2xl mx-auto rounded-2xl p-12 cursor-pointer mb-8">
+                <div id="uploadContent">
+                    <div class="flex justify-center mb-4">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="text-gray-300">
+                            <rect x="6" y="10" width="36" height="28" rx="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M24 20V32M24 20L19 25M24 20L29 25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <p class="text-base font-medium text-gray-600 mb-1">Drop answer sheets here</p>
+                    <p class="text-sm text-gray-400">PNG, JPG, or WebP • Max 10MB per file</p>
+                </div>
+                <div id="loadingState" class="hidden">
+                    <div class="flex justify-center mb-4">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <p class="text-base font-medium text-gray-600 mb-1">Evaluating answers...</p>
+                    <p class="text-sm text-gray-400" id="loadingStatus">Extracting handwritten text</p>
+                </div>
+            </div>
+
+            <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+
+            <!-- File List Preview -->
+            <div id="fileList" class="max-w-2xl mx-auto mb-6 hidden">
+                <div id="fileListItems" class="space-y-2"></div>
+                <button id="evaluateBtn" onclick="submitFiles()" class="pill-button mt-4">
+                    Evaluate Sheets
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="max-w-4xl mx-auto mt-16 hidden">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-display font-semibold">Results</h2>
+                <div id="overallScore" class="text-right">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            <div id="resultsContainer" class="space-y-6">
+                <!-- Result cards injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-100 py-8 px-6">
+        <div class="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-400">
+            <span>© 2026 Evaluator.ai</span>
+            <span>Powered by Groq + Sentence Transformers</span>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
