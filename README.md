@@ -1,8 +1,13 @@
 # AI Evaluator — System Architecture & Implementation
+
+.
+
 <img width="862" height="429" alt="image" src="https://github.com/user-attachments/assets/303a567d-fceb-4ec7-ba7b-d4c93d4676a1" />
 
 
 The pipeline is fully operational and implements a highly optimized, dual-layer architecture designed to balance precision, scale, and compute costs.
+.
+
 <img width="653" height="624" alt="image" src="https://github.com/user-attachments/assets/0e4d5476-0904-4bf3-afdc-e14eef8640fe" />
 
 
